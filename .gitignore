@@ -8,5 +8,7 @@ nodes/*.json
 /cookbooks
 /tmp
 .vagrant
+.chef/*.pem
+.envrc
 
 .bundle/install.log
