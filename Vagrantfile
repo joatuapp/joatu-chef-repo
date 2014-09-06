@@ -25,13 +25,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
   #
-  config.vm.define "postgresql" do
+  config.vm.define "joatu_staging" do
     config.vm.network :forwarded_port, guest: 80, host: 8080
-  end
-
-  config.vm.define "mysql" do
-    config.vm.network :forwarded_port, guest: 80, host: 8081
-    config.vm.network :forwarded_port, guest: 443, host: 4431
   end
 
   # Create a private network, which allows host-only access to the machine
@@ -79,27 +74,22 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         "users" => ["vagrant"]
       }
     },
-    "mysql" => {
-      "server_debian_password" => "a",
-      "server_repl_password" => "a",
-      "server_root_password" => "a"
-    },
     "postgresql" => {
       "password" => {
-        "postgres" => "a"
+        "postgres" => "joatu_staging"
       }
     },
     "active_applications" => {
-      "intercity_sample_app" => {
+      "joatu_app" => {
         ruby_version: "2.1.2",
-        domain_names: ["localhost"],
-        packages: ["nodejs"],
+        domain_names: ["api.joatu.local", "joatu.local"],
+        packages: [],
         rails_env: "staging",
         "database_info" => {
           host: "localhost",
-          username: "a",
-          password: "b",
-          database: "intercity_sample_app_production"
+          username: "joatu_app",
+          password: "joatu_staging",
+          database: "joatu_staging"
         },
         "env_vars" => {
           "SECRET_KEY_BASE" => "5c11bffd8ad6d537fc291c4b4089a42a2f40ee6869d75490eef944196b3b601053a8d9c2f5c29aa8738fa786f5c14dd5a6fab1b5537095c2c5ed3f2567392463"
@@ -107,45 +97,25 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       }
     },
     "ssh_deploy_keys" => [
-      "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCuiCTIYcGAbNemW4e1Q0SqfweN2d1Tkhn6xtwiV6/AITgSaW5bFWo/VEUghlCYwYcBgxoOMy0jfUJLS/XG/nQUsL3MKI/oAoFiaVoyDPb/zPvYeWrp3eGi+Ey66luVEVWLdHe1RQqCA52j5mSSCYsjKWt+q8eZWADASyuBsrIZjkdQ8z3ziSeaJdTXPKBKyMPAHd26JFZoBQL39OYcq6xozM7B+IlBoLJhFQRZP1IFjWJYtdYTj2PoByDynfZKltWgS/ouDNIzPhF9ZubXSrwYR4uCXmQbdk+quBItw/RJW7rIlLua24yhoPA/STNel/8Ld33FhMV8D0bx6mj+BrqV michiel@MacBook-Air-van-Michiel.local",
-"ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEArzYY9umFYiWoKL8scmB65Tui+QpZwpgQJENUXVIo6NnVwdaIkJTYUrDrHpAb/8NzPdVFz517qoyerFzHnLjjokhX5Nf0h5QL4GTcvajzKBsvXlGjad8ILo34nTjMpVDlYkBBOGcZ8mz7+1+KIQo7vWllcyQqEg3Sddrk0UA55U85IOgQuzRSvd8gXbEC42ghlALfnPEGgCLiUIj5koiIPU3cooa7SH3WiE6jtkt+aoeWqlzxqykS6l1JqJUkeqgobBUtM3H0uyXx8+TtqsM8Zo/Y8zYOy2u+ndIbLILp47dxi/l9IKVKrRhK4eW8yz6/yVsuDZ6YrxAV4GeYYx1pgQ== michiel@iMac-van-Michiel-Sikkes.local"
+      "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDea3sUR/Z4LKX/o8i4/j4hJZb1EL8IfxshkitVjW10daspV7hSKWYvDpTQbSt6tYq7FKroEl1PXFwVPdk5Xo4lpgVj/LM3qLAqkMHjyZUnx5VcXTjOVYfXuJsdgwvj/kbvjGrLL68/jbUiPoKymQNE+2tslA6TSXsrp5foQRQQ0BKmJKfzmjzsR/UHTFs6VKe8U45OHgYgmW6n8xSDEh5URR4yRwDCPl/LHXAchlkXlOQVYuooENIzqoJJPJlPlMO7Ib/3B8qAzb6c8MZcbl67tylO+87mhN1VcpuFwI4NCEHHke6n4XscXFtqFHd17wJ7RH83F4Bx67O0H3QAN3vH alex@undergroundwebdevelopment.com",
     ],
   }
 
-  config.vm.define "postgresql" do
+  config.vm.define "joatu_staging" do
 
     config.vm.provision :chef_solo do |chef|
       chef.cookbooks_path = "./cookbooks"
       chef.roles_path = "./roles"
 
       chef.add_role "postgresql"
-      chef.add_role "rails_passenger"
-
-      chef.log_level = :info
-
-      if json_payload["active_applications"].size > 0
-        json_payload["active_applications"]["intercity_sample_app"]["database_info"]["adapter"] = "postgresql"
-      end
-
-      # You may also specify custom JSON attributes:
-      chef.json = json_payload
-    end
-
-  end
-
-  config.vm.define "mysql" do
-
-    config.vm.provision :chef_solo do |chef|
-      chef.cookbooks_path = "./cookbooks"
-      chef.roles_path = "./roles"
-
-      chef.add_role "mysql"
       chef.add_role "rails"
 
       chef.log_level = :info
 
       if json_payload["active_applications"].size > 0
-        json_payload["active_applications"]["intercity_sample_app"]["database_info"]["adapter"] = "mysql2"
+        json_payload["active_applications"].each_value do |app|
+          app["database_info"]["adapter"] = "postgresql"
+        end
       end
 
       # You may also specify custom JSON attributes:
