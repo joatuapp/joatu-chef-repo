@@ -21,5 +21,10 @@ default_attributes(
   },
   "deploy_users" => [
         "deploy"
-  ]
+  ],
+  "authorization" => {
+    "sudo" => {
+      "users" => ["deploy"]
+    }
+  }
 )

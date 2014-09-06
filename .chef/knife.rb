@@ -10,6 +10,7 @@ chef_server_url          "https://api.opscode.com/organizations/#{org}"
 log_level                :info
 log_location             STDOUT
 
+validation_client_name   "joatu-validator"
 validation_key           "#{current_dir}/joatu-validator.pem"
 
 data_bag_encrypt_version 2
@@ -31,9 +32,12 @@ cookbook_email           "#{user_email}"
 knife[:aws_access_key_id]      = ENV["AWS_ACCESS_KEY_ID"]
 knife[:aws_secret_access_key]  = ENV["AWS_SECRET_ACCESS_KEY"]
 
-knife[:region]                 = "us-east-1"
-
+# Default options for ec2 opperations:
+knife[:flavor]                 = "t2.micro"
+knife[:image]                  = "ami-e7b8c0d7"
+knife[:region]                 = "us-west-2"
 knife[:aws_ssh_key_id]         = ENV["AWS_SSH_KEY_ID"]
+knife[:ssh_user]               = "ubuntu"
 
 # Allow overriding values in this knife.rb
 Chef::Config.from_file(knife_override) if File.exist?(knife_override)
