@@ -28,7 +28,7 @@ default_attributes(
         "DEVISE_MAILER_SENDER" => "noreply@joatu.org",
         "PG_DB" => db,
         "PG_HOST" => db_host,
-        "PG_USERNAME" => db_username,
+        "PG_USER" => db_username,
       }
     }
   },

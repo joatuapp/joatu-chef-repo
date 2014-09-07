@@ -7,6 +7,7 @@ run_list(
   "recipe[rails]",
   "recipe[ruby_build]",
   "recipe[rbenv]",
+  "recipe[rbenv::rbenv_vars]",
   "recipe[rails::databases]",
   "recipe[git]",
   "recipe[ssh_deploy_keys]",
@@ -30,7 +31,7 @@ default_attributes(
   },
   "active_applications" => {
     "joatu_alpha" => {
-      "packages" => ["nodejs"]
+      "packages" => ["nodejs-legacy"]
     }
   }
 )
