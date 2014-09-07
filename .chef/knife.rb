@@ -28,10 +28,6 @@ cookbook_copyright       "#{org} copyright #{Time.now.strftime("%Y")}"
 cookbook_license         "none"
 cookbook_email           "#{user_email}"
 
-if File.exist? "#{current_dir}/data_bag_secret.pem"
-  knife[:secret_file] = "#{current_dir}/data_bag_secret.pem"
-end
-
 # Gem: knife-ec2
 knife[:aws_access_key_id]      = ENV["AWS_ACCESS_KEY_ID"]
 knife[:aws_secret_access_key]  = ENV["AWS_SECRET_ACCESS_KEY"]

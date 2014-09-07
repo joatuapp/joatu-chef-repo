@@ -5,19 +5,18 @@ if node[:active_applications]
     # This code block understands how to load the database
     # password from a databag item named after the app, 
     # and insert those values into the app_info.
+    database_password = nil
     data_bag_item = app_info['data_bag_item'] || app
     search(:applications, "id:#{data_bag_item}").each do |app_secrets|
       if app_secrets.key?('database_info') && app_secrets['database_info'].key?('password')
-        app_info['database_info'] ||= {}
-        node.normal[:active_applications][app]['database_info']['password'] = app_secrets['database_info']['password']
+        database_password = app_secrets['database_info']['password']
       end
     end
 
-    if app_info['database_info']
+    if app_info['database_info'] && database_password
       database_info = app_info['database_info']
       database_name = app_info['database_info']['database']
       database_username = database_info['username']
-      database_password = database_info['password']
 
       if database_info['adapter'] =~ /mysql/
         include_recipe 'database::mysql'
