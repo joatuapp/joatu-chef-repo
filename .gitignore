@@ -12,3 +12,4 @@ nodes/*.json
 .envrc
 
 .bundle/install.log
+/apps

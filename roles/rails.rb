@@ -27,5 +27,10 @@ default_attributes(
     "sudo" => {
       "users" => ["deploy"]
     }
+  },
+  "active_applications" => {
+    "joatu_alpha" => {
+      "packages" => ["nodejs"]
+    }
   }
 )

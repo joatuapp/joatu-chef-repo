@@ -11,7 +11,6 @@ default_attributes(
     "joatu_alpha" => {
       "ruby_version" => "2.1.2",
       "rails_env" => "production",
-      "packages" => [],
       "domain_names" => [
         "api.alpha.joatu.org", 
         "alpha.joatu.org"
