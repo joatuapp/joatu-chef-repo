@@ -9,7 +9,7 @@ if node[:active_applications]
     search(:applications, "id:#{data_bag_item}").each do |app_secrets|
       if app_secrets.key?('database_info') && app_secrets['database_info'].key?('password')
         app_info['database_info'] ||= {}
-        app_info['database_info']['password'] = app_secrets['database_info']['password']
+        node.normal[:active_applications][app]['database_info']['password'] = app_secrets['database_info']['password']
       end
     end
 

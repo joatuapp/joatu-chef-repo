@@ -9,7 +9,7 @@ if node[:active_applications]
     search(:applications, "id:#{data_bag_item}").each do |app_secrets|
       if app_secrets.key? 'env_vars'
         app_info['env_vars'] ||= {}
-        app_secrets['env_vars'].each {|k,v| app_info['env_vars'][k] = v }
+        app_secrets['env_vars'].each {|k,v| node.normal[:active_applicaitons][app]['env_vars'][k] = v }
       end
     end
 
