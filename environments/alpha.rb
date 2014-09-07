@@ -16,11 +16,7 @@ default_attributes(
         "alpha.joatu.org"
       ],
       "database_info" => {
-        # NOTE: This "adapter" key just triggers the recipe
-        # to setup our DB. It does also get written to a
-        # database.yml, but that will get over-written on
-        # deploy by one that reads from ENV variables.
-        "adapter" => "postgresql",
+        "adapter" => "postgis",
         "database" => db,
         "username" => db_username,
       },
