@@ -16,6 +16,7 @@ run_list(
 
 default_attributes(
   "nginx" => { "server_tokens" => "off" },
+  "rails" => { "applications_root" => "/data/web" },
   "rbenv" => {
     "group_users" => ['deploy']
   },

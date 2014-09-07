@@ -2,6 +2,17 @@ include_recipe "database"
 
 if node[:active_applications]
   node[:active_applications].each do |app, app_info|
+    # This code block understands how to load the database
+    # password from a databag item named after the app, 
+    # and insert those values into the app_info.
+    data_bag_item = app_info['data_bag_item'] || app
+    search(:applications, "id:#{data_bag_item}").each do |app_secrets|
+      if app_secrets.key?('database_info') && app_secrets['database_info'].key?('password')
+        app_info['database_info'] ||= {}
+        app_info['database_info']['password'] = app_secrets['database_info']['password']
+      end
+    end
+
     if app_info['database_info']
       database_info = app_info['database_info']
       database_name = app_info['database_info']['database']
@@ -26,7 +37,7 @@ if node[:active_applications]
           host "localhost"
           action :grant
         end
-      elsif database_info['adapter'] == 'postgresql'
+      elsif database_info['adapter'] == 'postgresql' || database_info['adapter'] == 'postgis'
         execute "create-database-user" do
           psql = "psql -U postgres -c \"create user \\\"#{database_username}\\\" with password '#{database_password}'\""
           user 'postgres'
