@@ -4,6 +4,7 @@ description "Alpha Environment"
 # Keeping it DRY.
 db = "joatu_alpha"
 db_username = "jaotu_app"
+db_host = "localhost"
 
 default_attributes(
   "active_applications" => {
@@ -16,6 +17,7 @@ default_attributes(
         "alpha.joatu.org"
       ],
       "database_info" => {
+        "host" => db_host,
         "adapter" => "postgis",
         "database" => db,
         "username" => db_username,
@@ -26,7 +28,7 @@ default_attributes(
         "CORS_ORIGINS" => "alpha.joatu.org",
         "DEVISE_MAILER_SENDER" => "noreply@joatu.org",
         "PG_DB" => db,
-        "PG_HOST" => "localhost",
+        "PG_HOST" => db_host,
         "PG_USERNAME" => db_username,
       }
     }
