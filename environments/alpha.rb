@@ -3,7 +3,7 @@ description "Alpha Environment"
 
 # Keeping it DRY.
 db = "joatu_alpha"
-db_username = "jaotu_app"
+db_username = "joatu_app"
 db_host = "localhost"
 
 default_attributes(
