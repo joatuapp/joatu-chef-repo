@@ -31,7 +31,8 @@ default_attributes(
   },
   "active_applications" => {
     "joatu_app" => {
-      "packages" => ["nodejs-legacy"]
+      "packages" => ["nodejs-legacy"],
+      "postgres_extensions" => ["postgis", "plpgsql", "uuid-ossp"],
     }
   }
 )

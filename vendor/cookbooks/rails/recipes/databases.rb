@@ -51,22 +51,14 @@ if node[:active_applications]
           returns [0,1]
         end
 
-        execute "install-postgis" do
-          user 'postgres'
-          command "psql -U postgres -c \"CREATE EXTENSION IF NOT EXISTS \\\"postgis\\\"\""
-          returns [0,1]
-        end
-
-        execute "install-plpgsql" do
-          user 'postgres'
-          command "psql -U postgres -c \"CREATE EXTENSION IF NOT EXISTS \\\"plpgsql\\\"\""
-          returns [0,1]
-        end
-
-        execute "install-uuid-ossp" do
-          user 'postgres'
-          command "psql -U postgres -c \"CREATE EXTENSION IF NOT EXISTS \\\"uuid-ossp\\\"\""
-          returns [0,1]
+        if app_info.key?("postgres_extensions")
+          app_info["postgres_extensions"].each do |extension|
+            execute "install-#{extension}" do
+              user 'postgres'
+              command "psql -U postgres -c \"CREATE EXTENSION IF NOT EXISTS \\\"#{extension}\\\"\" #{database_name}"
+              returns [0,1]
+            end
+          end
         end
       end
     end
