@@ -30,7 +30,7 @@ default_attributes(
     }
   },
   "active_applications" => {
-    "joatu_alpha" => {
+    "joatu_app" => {
       "packages" => ["nodejs-legacy"]
     }
   }

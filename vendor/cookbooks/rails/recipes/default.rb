@@ -30,8 +30,8 @@ if node[:active_applications]
     rails_env = app_info['rails_env'] || "production"
     deploy_user = app_info['deploy_user'] || "deploy"
     application_root = "#{applications_root}/#{app}"
-    app_env = app_info['app_env'] || {}
-    app_env['RAILS_ENV'] = rails_env
+    app_info['env_vars'] || {}
+    node.default['active_applications'][app]['env_vars']['RAILS_ENV'] = rails_env
 
     rbenv_ruby app_info['ruby_version']
 

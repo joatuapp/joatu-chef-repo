@@ -82,17 +82,27 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     "active_applications" => {
       "joatu_app" => {
         ruby_version: "2.1.2",
-        domain_names: ["api.joatu.local", "joatu.local"],
+        domain_names: ["api.joatu.localstage", "joatu.localstage"],
         packages: [],
         rails_env: "staging",
         "database_info" => {
+          adapter: "postgis",
           host: "localhost",
           username: "joatu_app",
           password: "joatu_staging",
           database: "joatu_staging"
         },
         "env_vars" => {
-          "SECRET_KEY_BASE" => "5c11bffd8ad6d537fc291c4b4089a42a2f40ee6869d75490eef944196b3b601053a8d9c2f5c29aa8738fa786f5c14dd5a6fab1b5537095c2c5ed3f2567392463"
+          "APP_HOST" => "joatu.localstage",
+          "API_SUBDOMAIN" => "api.joatu.localstage",
+          "CORS_ORIGINS" =>  "joatu.localstage",
+          "DEVISE_MAILER_SENDER" => "noreply@joatu.org",
+          "PG_DB" => "joatu_staging",
+          "PG_HOST" => "localhost",
+          "PG_USER" => "joatu_app",
+          "SECRET_KEY_BASE" => "5c11bffd8ad6d537fc291c4b4089a42a2f40ee6869d75490eef944196b3b601053a8d9c2f5c29aa8738fa786f5c14dd5a6fab1b5537095c2c5ed3f2567392463",
+          "DEVISE_SECRET" => "5c11bffd8ad6d537fc291c4b4089a42a2f40ee6869d75490eef944196b3b601053a8d9c2f5c29aa8738fa786f5c14dd5a6fab1b5537095c2c5ed3f2567392463",
+          "DEVISE_PEPPER" => "5c11bffd8ad6d537fc291c4b4089a42a2f40ee6869d75490eef944196b3b601053a8d9c2f5c29aa8738fa786f5c14dd5a6fab1b5537095c2c5ed3f2567392463",
         }
       }
     },
@@ -111,12 +121,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       chef.add_role "rails"
 
       chef.log_level = :info
-
-      if json_payload["active_applications"].size > 0
-        json_payload["active_applications"].each_value do |app|
-          app["database_info"]["adapter"] = "postgresql"
-        end
-      end
 
       # You may also specify custom JSON attributes:
       chef.json = json_payload

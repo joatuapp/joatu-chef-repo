@@ -2,6 +2,7 @@ include_recipe "database"
 
 if node[:active_applications]
   node[:active_applications].each do |app, app_info|
+
     # This code block understands how to load the database
     # password from a databag item named after the app, 
     # and insert those values into the app_info.
@@ -38,7 +39,7 @@ if node[:active_applications]
         end
       elsif database_info['adapter'] == 'postgresql' || database_info['adapter'] == 'postgis'
         execute "create-database-user" do
-          psql = "psql -U postgres -c \"create user \\\"#{database_username}\\\" with password '#{database_password}'\""
+          psql = "psql -U postgres -c \"CREATE USER \\\"#{database_username}\\\" WITH PASSWORD '#{database_password}'\""
           user 'postgres'
           command psql
           returns [0,1]
@@ -47,6 +48,24 @@ if node[:active_applications]
         execute "create-database" do
           user 'postgres'
           command "createdb -U postgres -O #{database_username} #{database_name}"
+          returns [0,1]
+        end
+
+        execute "install-postgis" do
+          user 'postgres'
+          command "psql -U postgres -c \"CREATE EXTENSION IF NOT EXISTS \\\"postgis\\\"\""
+          returns [0,1]
+        end
+
+        execute "install-plpgsql" do
+          user 'postgres'
+          command "psql -U postgres -c \"CREATE EXTENSION IF NOT EXISTS \\\"plpgsql\\\"\""
+          returns [0,1]
+        end
+
+        execute "install-uuid-ossp" do
+          user 'postgres'
+          command "psql -U postgres -c \"CREATE EXTENSION IF NOT EXISTS \\\"uuid-ossp\\\"\""
           returns [0,1]
         end
       end

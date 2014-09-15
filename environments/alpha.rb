@@ -8,7 +8,7 @@ db_host = "localhost"
 
 default_attributes(
   "active_applications" => {
-    "joatu_alpha" => {
+    "joatu_app" => {
       "ruby_version" => "2.1.2",
       "rails_env" => "production",
       "domain_names" => [
@@ -24,7 +24,7 @@ default_attributes(
       "env_vars" => {
         "APP_HOST" => "alpha.joatu.org",
         "API_SUBDOMAIN" => "api.alpha",
-        "CORS_ORIGINS" => "alpha.joatu.org",
+        "CORS_ORIGINS" => "joatu.org",
         "DEVISE_MAILER_SENDER" => "noreply@joatu.org",
         "PG_DB" => db,
         "PG_HOST" => db_host,
