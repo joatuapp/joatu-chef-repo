@@ -11,7 +11,14 @@ if node[:active_applications]
         app_secrets['env_vars'].each {|k,v| node.default[:active_applications][app]["env_vars"][k] = v }
       end
     end
+    
+    # Set the unicorn app path. This helps ensure that unicorn correctly
+    # spawns from the _current_ subdirectory. Without this it may spawn out
+    # of the releases directory instead, in which case it won't actually be
+    # using new code.
+    node.default[:active_applications][app]['env_vars']['UNICORN_APP_PATH'] = "#{node['rails']['applications_root']}/#{app}/current"
   end
+
 
   node.from_file( run_context.resolve_attribute("rails", "default") )
 

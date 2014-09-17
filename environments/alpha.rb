@@ -22,6 +22,7 @@ default_attributes(
         "username" => db_username,
       },
       "env_vars" => {
+        "UNICORN_COUNT" => 3,
         # TODO: Consolidate some of these host related
         # ENV variables. Too much duplication here!
         "API_ENDPOINT" => "api.alpha.joatu.org",
