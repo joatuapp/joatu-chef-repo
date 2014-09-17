@@ -24,7 +24,7 @@ default_attributes(
       "env_vars" => {
         "APP_HOST" => "alpha.joatu.org",
         "API_SUBDOMAIN" => "api.alpha",
-        "CORS_ORIGINS" => "joatu.org",
+        "CORS_ORIGINS" => "alpha.joatu.org",
         "DEVISE_MAILER_SENDER" => "noreply@joatu.org",
         "PG_DB" => db,
         "PG_HOST" => db_host,
