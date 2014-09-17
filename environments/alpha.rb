@@ -22,6 +22,9 @@ default_attributes(
         "username" => db_username,
       },
       "env_vars" => {
+        # TODO: Consolidate some of these host related
+        # ENV variables. Too much duplication here!
+        "API_ENDPOINT" => "api.alpha.joatu.org",
         "APP_HOST" => "alpha.joatu.org",
         "API_SUBDOMAIN" => "api.alpha",
         "CORS_ORIGINS" => "alpha.joatu.org",
