@@ -9,7 +9,7 @@ db_host = "localhost"
 default_attributes(
   "active_applications" => {
     "joatu_app" => {
-      "ruby_version" => "2.1.2",
+      "ruby_version" => "2.1.4",
       "rails_env" => "production",
       "domain_names" => [
         "api.alpha.joatu.org", 
@@ -33,6 +33,7 @@ default_attributes(
         "PG_DB" => db,
         "PG_HOST" => db_host,
         "PG_USER" => db_username,
+        "UNICORN_APP_PATH" => "/data/web/joatu_app/current",
       }
     }
   },
